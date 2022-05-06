@@ -13,6 +13,7 @@ import com.example.phonebook.routing.MyNotesRouter
 import com.example.phonebook.routing.Screen
 import com.example.phonebook.screens.NotesScreen
 import com.example.phonebook.screens.SaveNoteScreen
+import com.example.phonebook.screens.TagsScreen
 import com.example.phonebook.screens.TrashScreen
 import com.example.phonebook.ui.theme.PhoneBookTheme
 import com.example.phonebook.ui.theme.PhoneBookThemeSettings
@@ -42,6 +43,7 @@ fun MainActivityScreen(viewModel: MainViewModel) {
             is Screen.Notes -> NotesScreen(viewModel)
             is Screen.SaveNote -> SaveNoteScreen(viewModel)
             is Screen.Trash -> TrashScreen(viewModel)
+            is Screen.Tags -> TagsScreen(viewModel)
         }
     }
 }

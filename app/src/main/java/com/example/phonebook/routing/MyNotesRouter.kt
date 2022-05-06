@@ -9,6 +9,7 @@ sealed class Screen {
     object Notes: Screen()
     object SaveNote: Screen()
     object Trash: Screen()
+    object Tags: Screen()
 }
 
 object MyNotesRouter {

@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -173,6 +174,15 @@ fun AppDrawer(
             isSelected = currentScreen == Screen.Notes,
             onClick = {
                 MyNotesRouter.navigateTo(Screen.Notes)
+                closeDrawerAction()
+            }
+        )
+        ScreenNavigationButton(
+            icon = Icons.Filled.Star,
+            label = "Tags",
+            isSelected = currentScreen == Screen.Tags,
+            onClick = {
+                MyNotesRouter.navigateTo(Screen.Tags)
                 closeDrawerAction()
             }
         )

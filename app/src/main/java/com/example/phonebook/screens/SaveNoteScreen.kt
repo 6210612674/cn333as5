@@ -1,6 +1,7 @@
 package com.example.phonebook.screens
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -47,6 +48,8 @@ fun SaveNoteScreen(viewModel: MainViewModel) {
 
     val moveNoteToTrashDialogShownState = rememberSaveable { mutableStateOf(false) }
 
+    val check = rememberSaveable { mutableStateOf(false) }
+
     BackHandler {
         if (bottomDrawerState.isOpen) {
             coroutineScope.launch { bottomDrawerState.close() }
@@ -63,9 +66,11 @@ fun SaveNoteScreen(viewModel: MainViewModel) {
                 onBackClick = { MyNotesRouter.navigateTo(Screen.Notes) },
                 onSaveNoteClick = { viewModel.saveNote(noteEntry) },
                 onOpenColorPickerClick = {
+                    check.value = true
                     coroutineScope.launch { bottomDrawerState.open() }
                 },
                 onOpenTagPickerClick = {
+                    check.value = false
                     coroutineScope.launch { bottomDrawerState.open() }
                 },
                 onDeleteNoteClick = {
@@ -77,18 +82,20 @@ fun SaveNoteScreen(viewModel: MainViewModel) {
         BottomDrawer(
             drawerState = bottomDrawerState,
             drawerContent = {
-                ColorPicker(
-                    colors = colors,
-                    onColorSelect = { color ->
-                        viewModel.onNoteEntryChange(noteEntry.copy(color = color))
-                    }
-                )
-                TagPicker(
-                    tags = tags,
-                    onTagSelect = { tag ->
-                        viewModel.onNoteEntryChange(noteEntry.copy(tag = tag))
-                    }
-                )
+                if(check.value) {
+                    ColorPicker(
+                        colors = colors,
+                        onColorSelect = { color ->
+                            viewModel.onNoteEntryChange(noteEntry.copy(color = color))
+                        }
+                )}
+                if(!check.value) {
+                    TagPicker(
+                        tags = tags,
+                        onTagSelect = { tag ->
+                            viewModel.onNoteEntryChange(noteEntry.copy(tag = tag))
+                        }
+                )}
             }
         ) {
             SaveNoteContent(
@@ -220,16 +227,16 @@ private fun SaveNoteContent(
             }
         )
 
-        val canBeCheckedOff: Boolean = note.isCheckedOff != null
-
-        NoteCheckOption(
-            isChecked = canBeCheckedOff,
-            onCheckedChange = { canBeCheckedOffNewValue ->
-                val isCheckedOff: Boolean? = if (canBeCheckedOffNewValue) false else null
-
-                onNoteChange.invoke(note.copy(isCheckedOff = isCheckedOff))
-            }
-        )
+//        val canBeCheckedOff: Boolean = note.isCheckedOff != null
+//
+//        NoteCheckOption(
+//            isChecked = canBeCheckedOff,
+//            onCheckedChange = { canBeCheckedOffNewValue ->
+//                val isCheckedOff: Boolean? = if (canBeCheckedOffNewValue) false else null
+//
+//                onNoteChange.invoke(note.copy(isCheckedOff = isCheckedOff))
+//            }
+//        )
 
         PickedColor(color = note.color)
         PickedTag(tag = note.tag)
@@ -256,27 +263,27 @@ private fun ContentTextField(
     )
 }
 
-@Composable
-private fun NoteCheckOption(
-    isChecked: Boolean,
-    onCheckedChange: (Boolean) -> Unit
-) {
-    Row(
-        Modifier
-            .padding(8.dp)
-            .padding(top = 16.dp)
-    ) {
-        Text(
-            text = "Can Contacts be checked off?",
-            modifier = Modifier.weight(1f)
-        )
-        Switch(
-            checked = isChecked,
-            onCheckedChange = onCheckedChange,
-            modifier = Modifier.padding(start = 8.dp)
-        )
-    }
-}
+//@Composable
+//private fun NoteCheckOption(
+//    isChecked: Boolean,
+//    onCheckedChange: (Boolean) -> Unit
+//) {
+//    Row(
+//        Modifier
+//            .padding(8.dp)
+//            .padding(top = 16.dp)
+//    ) {
+//        Text(
+//            text = "Can Contacts be checked off?",
+//            modifier = Modifier.weight(1f)
+//        )
+//        Switch(
+//            checked = isChecked,
+//            onCheckedChange = onCheckedChange,
+//            modifier = Modifier.padding(start = 8.dp)
+//        )
+//    }
+//}
 
 @Composable
 private fun PickedColor(color: ColorModel) {

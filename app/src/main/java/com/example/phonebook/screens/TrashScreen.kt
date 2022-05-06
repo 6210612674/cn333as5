@@ -185,7 +185,6 @@ private fun Content(
                 Note(
                     note = note,
                     onNoteClick = onNoteClick,
-                    isSelected = isNoteSelected
                 )
             }
         }

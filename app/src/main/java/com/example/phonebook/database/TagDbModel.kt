@@ -11,7 +11,7 @@ data class TagDbModel(
 ) {
     companion object {
         val DEFAULT_TAGS = listOf(
-            TagDbModel(1, ""),
+            TagDbModel(1, "None"),
             TagDbModel(2, "Friends"),
             TagDbModel(3, "Home"),
             TagDbModel(4, "Work"),

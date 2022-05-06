@@ -19,23 +19,15 @@ fun Note(
     modifier: Modifier = Modifier,
     note: NoteModel,
     onNoteClick: (NoteModel) -> Unit = {},
-    onNoteCheckedChange: (NoteModel) -> Unit = {},
-    isSelected: Boolean
 ) {
-    val background = if (isSelected)
-        Color.LightGray
-    else
-        MaterialTheme.colors.surface
-
     Card(
         shape = RoundedCornerShape(4.dp),
         modifier = modifier
             .padding(8.dp)
             .fillMaxWidth(),
-        backgroundColor = background
     ) {
         ListItem(
-            text = { Text(text = note.name + " ("+note.tag+")", maxLines = 1) },
+            text = { Text(text = note.name, maxLines = 1) },
             secondaryText = {
                 Text(text = note.phoneNumber, maxLines = 1)
             },
@@ -43,31 +35,12 @@ fun Note(
                 NoteColor(
                     color = Color.fromHex(note.color.hex),
                     size = 40.dp,
-                    border = 1.dp
+                    border = .5.dp
                 )
-            },
-            trailing = {
-                if (note.isCheckedOff != null) {
-                    Checkbox(
-                        checked = note.isCheckedOff,
-                        onCheckedChange = { isChecked ->
-                            val newNote = note.copy(isCheckedOff = isChecked)
-                            onNoteCheckedChange.invoke(newNote)
-                        },
-                        modifier = Modifier.padding(start = 8.dp)
-                    )
-                }
             },
             modifier = Modifier.clickable {
                 onNoteClick.invoke(note)
             }
         )
     }
-}
-
-@ExperimentalMaterialApi
-@Preview
-@Composable
-private fun NotePreview() {
-    Note(note = NoteModel(1, "Contacts 1", "Phone number 1", false), isSelected = true)
 }

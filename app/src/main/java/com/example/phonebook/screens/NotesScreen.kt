@@ -95,9 +95,22 @@ private fun NotesList(
             Note(
                 note = note,
                 onNoteClick = onNoteClick,
-                onNoteCheckedChange = onNoteCheckedChange,
-                isSelected = false
             )
         }
     }
+}
+
+@ExperimentalMaterialApi
+@Preview
+@Composable
+private fun NotesListPreview() {
+    NotesList(
+        notes = listOf(
+            NoteModel(1, "Contacts 1", "Phone number 1", null),
+            NoteModel(2, "Contacts 2", "Phone number 2", false),
+            NoteModel(3, "Contacts 3", "Phone number 3", true)
+        ),
+        onNoteCheckedChange = {},
+        onNoteClick = {}
+    )
 }
