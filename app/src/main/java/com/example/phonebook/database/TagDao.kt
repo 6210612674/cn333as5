@@ -14,5 +14,5 @@ interface TagDao {
     fun getAllSync(): List<TagDbModel>
 
     @Insert
-    fun insertAll(vararg colorDbModels: TagDbModel)
+    fun insertAll(vararg tagDbModels: TagDbModel)
 }

@@ -46,17 +46,17 @@ class Repository(
                 colorDao.insertAll(*colors)
             }
 
+            val tags = TagDbModel.DEFAULT_TAGS.toTypedArray()
+            val dbTags = tagDao.getAllSync()
+            if (dbTags.isNullOrEmpty()) {
+                tagDao.insertAll(*tags)
+            }
+
             // Prepopulate notes
             val notes = NoteDbModel.DEFAULT_NOTES.toTypedArray()
             val dbNotes = noteDao.getAllSync()
             if (dbNotes.isNullOrEmpty()) {
                 noteDao.insertAll(*notes)
-            }
-
-            val tags = NoteDbModel.DEFAULT_NOTES.toTypedArray()
-            val dbTags = tagDao.getAllSync()
-            if (dbTags.isNullOrEmpty()) {
-                noteDao.insertAll(*tags)
             }
 
             postInitAction.invoke()

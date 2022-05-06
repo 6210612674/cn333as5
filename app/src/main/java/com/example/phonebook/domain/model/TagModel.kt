@@ -4,9 +4,9 @@ import com.example.phonebook.database.TagDbModel
 
 data class TagModel(
     val id: Long,
-    val name: String,
+    val tagName: String,
 ) {
     companion object {
-        val DEFAULT = with(TagDbModel.DEFAULT_TAG) { TagModel(id, name) }
+        val DEFAULT = with(TagDbModel.DEFAULT_TAG) { TagModel(id, tagName) }
     }
 }

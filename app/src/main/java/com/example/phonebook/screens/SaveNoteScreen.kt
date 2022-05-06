@@ -65,6 +65,9 @@ fun SaveNoteScreen(viewModel: MainViewModel) {
                 onOpenColorPickerClick = {
                     coroutineScope.launch { bottomDrawerState.open() }
                 },
+                onOpenTagPickerClick = {
+                    coroutineScope.launch { bottomDrawerState.open() }
+                },
                 onDeleteNoteClick = {
                     moveNoteToTrashDialogShownState.value = true
                 }
@@ -78,6 +81,12 @@ fun SaveNoteScreen(viewModel: MainViewModel) {
                     colors = colors,
                     onColorSelect = { color ->
                         viewModel.onNoteEntryChange(noteEntry.copy(color = color))
+                    }
+                )
+                TagPicker(
+                    tags = tags,
+                    onTagSelect = { tag ->
+                        viewModel.onNoteEntryChange(noteEntry.copy(tag = tag))
                     }
                 )
             }
@@ -129,6 +138,7 @@ fun SaveNoteTopAppBar(
     onBackClick: () -> Unit,
     onSaveNoteClick: () -> Unit,
     onOpenColorPickerClick: () -> Unit,
+    onOpenTagPickerClick: () -> Unit,
     onDeleteNoteClick: () -> Unit
 ) {
     TopAppBar(
@@ -160,6 +170,14 @@ fun SaveNoteTopAppBar(
                 Icon(
                     painter = painterResource(id = R.drawable.baseline_color_lens_24),
                     contentDescription = "Open Color Picker Button",
+                    tint = MaterialTheme.colors.onPrimary
+                )
+            }
+
+            IconButton(onClick = onOpenTagPickerClick) {
+                Icon(
+                    painter = painterResource(id = R.drawable.outline_local_offer_24),
+                    contentDescription = "Open Tag Picker Button",
                     tint = MaterialTheme.colors.onPrimary
                 )
             }
@@ -202,17 +220,6 @@ private fun SaveNoteContent(
             }
         )
 
-//        ContentTextField(
-//            modifier = Modifier
-//                .heightIn(max = 240.dp)
-//                .padding(top = 16.dp),
-//            label = "Tag",
-//            text = note.tag,
-//            onTextChange = { newTag ->
-//                onNoteChange.invoke(note.copy(tag = newTag))
-//            }
-//        )
-
         val canBeCheckedOff: Boolean = note.isCheckedOff != null
 
         NoteCheckOption(
@@ -225,6 +232,7 @@ private fun SaveNoteContent(
         )
 
         PickedColor(color = note.color)
+        PickedTag(tag = note.tag)
     }
 }
 
@@ -341,6 +349,77 @@ fun ColorItem(
             fontSize = 22.sp,
             modifier = Modifier
                 .padding(horizontal = 16.dp)
+                .align(Alignment.CenterVertically)
+        )
+    }
+}
+
+@Composable
+private fun PickedTag(tag: TagModel) {
+    Row(
+        Modifier
+            .padding(8.dp)
+            .padding(top = 16.dp)
+    ) {
+        Text(
+            text = "Picked tag",
+            modifier = Modifier
+                .weight(1f)
+                .align(Alignment.CenterVertically)
+        )
+        Text(
+            text = tag.tagName,
+            fontSize = 18.sp,
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .align(Alignment.CenterVertically)
+        )
+    }
+}
+
+@Composable
+private fun TagPicker(
+    tags: List<TagModel>,
+    onTagSelect: (TagModel) -> Unit
+) {
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(
+            text = "Tag picker",
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(8.dp)
+        )
+        LazyColumn(modifier = Modifier.fillMaxWidth()) {
+            items(tags.size) { itemIndex ->
+                val tag = tags[itemIndex]
+                TagItem(
+                    tag = tag,
+                    onTagSelect = onTagSelect
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun TagItem(
+    tag: TagModel,
+    onTagSelect: (TagModel) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(
+                onClick = {
+                    onTagSelect(tag)
+                }
+            )
+    ) {
+        Text(
+            text = tag.tagName,
+            fontSize = 18.sp,
+            modifier = Modifier
+                .padding(all = 6.dp)
                 .align(Alignment.CenterVertically)
         )
     }

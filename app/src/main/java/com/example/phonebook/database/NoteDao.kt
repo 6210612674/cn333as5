@@ -8,7 +8,7 @@ import androidx.room.Query
 @Dao
 interface NoteDao {
 
-    @Query("SELECT * FROM NoteDbModel")
+    @Query("SELECT * FROM NoteDbModel ORDER by name asc")
     fun getAllSync(): List<NoteDbModel>
 
     @Query("SELECT * FROM NoteDbModel WHERE id IN (:noteIds)")

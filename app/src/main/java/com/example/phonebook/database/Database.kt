@@ -3,7 +3,7 @@ package com.example.phonebook.database
 import android.content.Context
 import androidx.room.*
 
-@Database(entities = [NoteDbModel::class, ColorDbModel::class], version = 1)
+@Database(entities = [NoteDbModel::class, ColorDbModel::class, TagDbModel::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun noteDao(): NoteDao
     abstract fun colorDao(): ColorDao

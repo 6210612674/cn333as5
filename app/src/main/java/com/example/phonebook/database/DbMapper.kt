@@ -25,7 +25,7 @@ class DbMapper {
         val color = mapColor(colorDbModel)
         val tag = mapTag(tagDbModel)
         val isCheckedOff = with(noteDbModel) { if (canBeCheckedOff) isCheckedOff else null }
-        return with(noteDbModel) { NoteModel(id, name, phoneNumber, isCheckedOff, tag, color) }
+        return with(noteDbModel) { NoteModel(id, name, phoneNumber, isCheckedOff, color, tag) }
     }
 
     // convert list of ColorDdModels to list of ColorModels
@@ -42,7 +42,7 @@ class DbMapper {
 
     // convert TagDbModel to TagModel
     fun mapTag(tagDbModel: TagDbModel): TagModel =
-        with(tagDbModel) { TagModel(id, name) }
+        with(tagDbModel) { TagModel(id, tagName) }
 
     // convert NoteModel back to NoteDbModel
     fun mapDbNote(note: NoteModel): NoteDbModel =
@@ -55,11 +55,11 @@ class DbMapper {
                     phoneNumber = phoneNumber,
                     canBeCheckedOff = canBeCheckedOff,
                     isCheckedOff = isCheckedOff,
-                    tagId = tag.id,
                     colorId = color.id,
+                    tagId = tag.id,
                     isInTrash = false
                 )
             else
-                NoteDbModel(id, name, phoneNumber, canBeCheckedOff, isCheckedOff, tag.id, color.id, false)
+                NoteDbModel(id, name, phoneNumber, canBeCheckedOff, isCheckedOff, color.id, tag.id, false)
         }
 }

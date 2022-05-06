@@ -7,6 +7,6 @@ data class NoteModel(
     val name: String = "",
     val phoneNumber: String = "",
     val isCheckedOff: Boolean? = null, // null represents that the note can't be checked off
+    val color: ColorModel = ColorModel.DEFAULT,
     val tag: TagModel = TagModel.DEFAULT,
-    val color: ColorModel = ColorModel.DEFAULT
 )
